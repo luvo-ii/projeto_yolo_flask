@@ -9,7 +9,7 @@ app = Flask(__name__)
 CORS(app)
 
 app = Flask(__name__)
-model = YOLO("runs/treino_garrafas_v2/weights/best.pt")
+model = YOLO("static\best.pt")
 
 @app.route('/')
 def home():
