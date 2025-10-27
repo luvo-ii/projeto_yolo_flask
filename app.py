@@ -8,7 +8,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-app = Flask(__name__)
+# Carrega seu modelo treinado
 model = YOLO("static/best.pt")
 
 @app.route('/')

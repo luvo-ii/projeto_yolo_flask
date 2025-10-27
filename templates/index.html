@@ -3,18 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Detector de Garrafas</title>
+  <title>Detector de Garrafas - Webcam</title>
   <style>
     body { text-align: center; font-family: Arial; }
-    canvas { border: 2px solid #ccc; margin-top: 10px; }
+    video, canvas { border: 2px solid #ccc; margin-top: 10px; }
   </style>
 </head>
 <body>
-  <h1>Detector de Garrafas</h1>
-  <input type="file" id="fileInput" accept="image/*" />
-  <br><br>
-  <canvas id="canvas"></canvas>
+  <h1>Detector de Garrafas - Webcam</h1>
+  <video id="video" width="640" height="480" autoplay muted></video>
+  <canvas id="canvas" width="640" height="480"></canvas>
 
-  <script src="{{ url_for('static', filename='static/script.js') }}"></script>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
