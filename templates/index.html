@@ -1,18 +1,35 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Detector de Garrafas - Webcam</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YOLO com Webcam</title>
   <style>
-    body { text-align: center; font-family: Arial; }
-    video, canvas { border: 2px solid #ccc; margin-top: 10px; }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      height: 100vh;
+      background: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+    video, canvas {
+      border: 2px solid #555;
+      border-radius: 8px;
+    }
   </style>
 </head>
 <body>
-  <h1>Detector de Garrafas - Webcam</h1>
-  <video id="video" width="640" height="480" autoplay muted></video>
-  <canvas id="canvas" width="640" height="480"></canvas>
+  <div>
+    <h3>📷 Webcam</h3>
+    <video id="video" width="320" height="240" autoplay muted></video>
+  </div>
+  <div>
+    <h3>🧠 Detecções</h3>
+    <canvas id="canvas" width="320" height="240"></canvas>
+  </div>
 
   <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
