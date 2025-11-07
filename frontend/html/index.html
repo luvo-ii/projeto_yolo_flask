@@ -1,0 +1,1842 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VisionQ - Sistema de Inspeção de Qualidade Industrial</title>
+    <link rel="shortcut icon" href="../img/Logo_site_ia.png" type="image/x-icon">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- Toast Container -->
+        <div id="toast-container" class="toast-container"></div>
+
+        <!-- Login Screen -->
+        
+
+        <!-- Forgot Password Screen -->
+        <div id="forgot-password-screen" class="screen">
+            <div class="min-h-screen bg-slate-950 text-gray-100 flex justify-center items-center p-4">
+                <div
+                    class="bg-slate-800 p-6 sm:p-8 border border-slate-700 shadow-2xl w-full max-w-md mx-auto rounded-lg">
+                    <!-- Header -->
+                    <div class="flex items-center mb-4 sm:mb-6">
+                        <button type="button" id="back-to-login"
+                            class="p-2 rounded hover:bg-slate-700 transition-colors mr-2" title="Voltar ao Login">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                            </svg>
+                        </button>
+                        <h2 class="text-center flex-1 text-gray-100 text-lg sm:text-xl">Recuperar Código</h2>
+                    </div>
+
+                    <!-- Info Box -->
+                    <div class="bg-orange-900/20 border border-orange-600/30 p-4 rounded-lg mb-6">
+                        <div class="flex items-center space-x-2 mb-2">
+                            <svg class="w-4 h-4 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                                </path>
+                            </svg>
+                            <p class="text-orange-400 text-sm font-medium">Recuperação de Código</p>
+                        </div>
+                        <p class="text-orange-300 text-sm">
+                            Digite seu email corporativo para receber as instruções de recuperação do seu código de
+                            funcionário.
+                        </p>
+                    </div>
+
+                    <form id="forgot-password-form" class="space-y-6">
+                        <div>
+                            <label for="recovery-email" class="text-gray-200 text-sm">Email corporativo</label>
+                            <input type="email" id="recovery-email" placeholder="seu.email@empresa.com" required
+                                class="w-full bg-slate-700 border border-slate-600 text-gray-100 focus:border-orange-400 mt-2 text-sm p-3 rounded-lg" />
+                        </div>
+
+                        <button type="submit"
+                            class="w-full bg-orange-600 hover:bg-orange-700 border border-orange-500 py-3 text-sm rounded-lg font-medium transition-colors">
+                            Enviar Instruções
+                        </button>
+                    </form>
+
+                    <div class="mt-6 text-center">
+                        <div class="bg-slate-700/50 border border-slate-600 p-4 rounded-lg">
+                            <p class="text-gray-400 text-sm">
+                                <strong>Procedimento de Recuperação</strong>
+                            </p>
+                            <p class="text-gray-500 text-xs mt-1">
+                                O supervisor responsável será notificado e entrará em contato com você em até 24 horas
+                                úteis
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Screen -->
+        <div id="dashboard-screen" class="screen active">
+            <div class="min-h-screen bg-slate-950 text-gray-100">
+                <!-- Navigation -->
+                <nav class="bg-slate-800 border-b border-slate-700 sticky top-0 z-50">
+                    <div class="px-4 sm:px-6 py-3 flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-8 h-8 bg-slate-950 rounded-lg flex items-center justify-center">
+                                <img src="../img/Logo_site_ia.png" alt="VisionQ Logo" class="w-5 h-5"></img>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <h1 class="text-lg sm:text-xl font-medium text-gray-100">VisionQ</h1>
+                                <span id="user-badge"
+                                    class="px-2 py-1 rounded-full text-xs font-medium bg-blue-500/20 text-blue-400">
+                                    Operador
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Desktop Navigation -->
+                        <div class="hidden md:flex items-center space-x-2">
+                            <!-- Painel Supervisor - Para supervisores e gestores -->
+                            <button id="nav-supervisor" class="p-2 rounded hover:bg-slate-700 transition-colors hidden"
+                                title="Painel Supervisor">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+                                    </path>
+                                </svg>
+                            </button>
+
+                            <button id="nav-reports" class="p-2 rounded hover:bg-slate-700 transition-colors"
+                                title="Relatórios">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                                    </path>
+                                </svg>
+                            </button>
+                            <button id="nav-alerts" class="p-2 rounded hover:bg-slate-700 transition-colors"
+                                title="Ver Alertas">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z">
+                                    </path>
+                                </svg>
+                            </button>
+
+                            <!-- Área Administrativa - Apenas para Gestor -->
+                            <button id="nav-manager" class="p-2 rounded hover:bg-slate-700 transition-colors hidden"
+                                title="Área Administrativa">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.031 9-11.622 0-1.042-.133-2.052-.382-3.016z">
+                                    </path>
+                                </svg>
+                            </button>
+
+                            <button id="nav-config" class="p-2 rounded hover:bg-slate-700 transition-colors"
+                                title="Configurações">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
+                                    </path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                            </button>
+                            <button id="logout-btn" class="p-2 rounded hover:bg-slate-700 transition-colors"
+                                title="Sair">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Mobile Menu Button -->
+                        <div class="md:hidden">
+                            <button id="mobile-menu-btn" class="p-2 rounded hover:bg-slate-700 transition-colors">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 6h16M4 12h16M4 18h16"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </nav>
+
+                <!-- Mobile Offcanvas Menu -->
+                <div id="mobile-menu" class="mobile-menu">
+                    <div class="mobile-menu-backdrop"></div>
+                    <div class="mobile-menu-panel">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex items-center space-x-3">
+                                <h2 class="text-lg font-medium">Menu Principal</h2>
+                                <span id="mobile-user-badge"
+                                    class="px-2 py-1 rounded-full text-xs font-medium bg-blue-500/20 text-blue-400">
+                                    Operador
+                                </span>
+                            </div>
+                            <button id="close-mobile-menu" class="p-2 rounded hover:bg-slate-800 transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <nav class="space-y-2">
+                            <div class="px-3 py-2 text-sm text-gray-400 uppercase tracking-wider">Navegação</div>
+                        <!-- Painel Supervisor - Para supervisores e gestores -->
+                        <button 
+                            data-navigate="supervisor"
+                            id="mobile-nav-supervisor"
+                            class="w-full text-left px-3 py-3 rounded hover:bg-slate-800 transition-colors flex items-center space-x-3 hidden">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+                                </path>
+                            </svg>
+                            <span>Painel Supervisor</span>
+                        </button>
+
+                        <!-- Sistema de Alertas -->
+                        <button 
+                            data-navigate="alerts"
+                            id="mobile-nav-alerts"
+                            class="w-full text-left px-3 py-3 rounded hover:bg-slate-800 transition-colors flex items-center space-x-3">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 
+                                    1.732-2.5L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 
+                                    16.5c-.77.833.192 2.5 1.732 2.5z">
+                                </path>
+                            </svg>
+                            <span>Sistema de Alertas</span>
+                        </button>
+
+                        <!-- Relatórios de Produção -->
+                        <button 
+                            data-navigate="reports"
+                            id="mobile-nav-reports"
+                            class="w-full text-left px-3 py-3 rounded hover:bg-slate-800 transition-colors flex items-center space-x-3">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                                </path>
+                            </svg>
+                            <span>Relatórios de Produção</span>
+                        </button>
+
+                        <!-- Área Administrativa - Apenas para Gestor -->
+                        <div id="mobile-admin-section" class="hidden">
+                            <div class="px-3 py-2 text-sm text-gray-400 uppercase tracking-wider mt-4">
+                                Administração
+                            </div>
+
+                            <button 
+                                data-navigate="manager"
+                                id="mobile-nav-manager"
+                                class="w-full text-left px-3 py-3 rounded hover:bg-slate-800 transition-colors flex items-center space-x-3 bg-purple-900/20 border border-purple-600/30">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.031 9-11.622 0-1.042-.133-2.052-.382-3.016z">
+                                    </path>
+                                </svg>
+                                <span>Área Administrativa</span>
+                            </button>
+                        </div>
+
+                        <!-- Configurações -->
+                        <button 
+                            data-navigate="config"
+                            id="mobile-nav-config"
+                            class="w-full text-left px-3 py-3 rounded hover:bg-slate-800 transition-colors flex items-center space-x-3">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
+                                </path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            <span>Configurações</span>
+                        </button>
+
+                        <hr class="border-slate-700 my-4">
+
+                        <!-- Logout -->
+                        <button 
+                            id="logout-button-mobile"
+                            class="w-full text-left px-3 py-3 rounded hover:bg-slate-800 transition-colors text-red-400 flex items-center space-x-3">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
+                                </path>
+                            </svg>
+                            <span>Sair do Sistema</span>
+                        </button>
+
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Configuration Modal -->
+                <div id="config-modal" class="modal">
+                    <div class="modal-backdrop"></div>
+                    <div class="modal-content bg-slate-800 border-slate-700 text-gray-100 max-w-md mx-4 sm:mx-auto">
+                        <div class="modal-header">
+                            <h3 class="text-orange-400 text-lg font-medium">Configurações do Sistema</h3>
+                            <button id="close-config-modal"
+                                class="p-2 rounded bg-slate-700 arrow-class transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="modal-body space-y-4 max-h-[60vh] overflow-y-auto">
+                            <div>
+                                <label for="alert-threshold" class="text-gray-200 text-sm">Limite de Defeitos
+                                    (%)</label>
+                                <input id="alert-threshold" type="number" value="75"
+                                    class="w-full bg-slate-700 border border-slate-600 text-gray-100 mt-1 p-2 rounded" />
+                            </div>
+
+                            <div>
+                                <label for="detection-sensitivity" class="text-gray-200 text-sm">Sensibilidade de
+                                    Detecção</label>
+                                <select id="detection-sensitivity"
+                                    class="w-full bg-slate-700 border border-slate-600 text-gray-100 mt-1 p-2 rounded">
+                                    <option value="low">Baixa</option>
+                                    <option value="medium">Média</option>
+                                    <option value="high" selected>Alta</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="camera-resolution" class="text-gray-200 text-sm">Resolução da Câmera</label>
+                                <select id="camera-resolution"
+                                    class="w-full bg-slate-700 border border-slate-600 text-gray-100 mt-1 p-2 rounded">
+                                    <option value="720p">720p</option>
+                                    <option value="1080p">1080p</option>
+                                    <option value="4k" selected>4K</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="recording-duration" class="text-gray-200 text-sm">Duração de Gravação
+                                    (segundos)</label>
+                                <input id="recording-duration" type="number" value="60"
+                                    class="w-full bg-slate-700 border border-slate-600 text-gray-100 mt-1 p-2 rounded" />
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <label for="auto-stop" class="text-gray-200 text-sm">Parada Automática</label>
+                                <div class="switch">
+                                    <input type="checkbox" id="auto-stop" checked>
+                                    <span class="slider"></span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <label for="email-notifications" class="text-gray-200 text-sm">Notificações por
+                                    Email</label>
+                                <div class="switch">
+                                    <input type="checkbox" id="email-notifications" checked>
+                                    <span class="slider"></span>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 pt-4">
+                                <button id="save-config"
+                                    class="flex-1 bg-orange-600 hover:bg-orange-700 px-4 py-2 rounded font-medium transition-colors">
+                                    Salvar
+                                </button>
+                                <button id="cancel-config"
+                                    class="flex-1 bg-slate-600 hover:bg-slate-700 border border-slate-500 px-4 py-2 rounded font-medium transition-colors">
+                                    Cancelar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <div class="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
+                    <!-- Project Title -->
+                    <div class="mb-6 text-center lg:text-left">
+                        <h2 class="text-gray-100 text-xl sm:text-2xl lg:text-3xl mb-2">Sistema de Inspeção de Qualidade
+                            Industrial</h2>
+                        <p class="text-gray-400 text-sm sm:text-base">Monitoramento em Tempo Real com Visão
+                            Computacional</p>
+                    </div>
+
+                    <!-- Production Status Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 lg:mb-8">
+                        <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-400 text-sm">Produção Total</p>
+                                    <p id="total-production"
+                                        class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-100 mt-1">1,250</p>
+                                </div>
+                                <div
+                                    class="w-10 h-10 sm:w-12 sm:h-12 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 sm:w-6 sm:h-6 text-blue-400" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+                                        </path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-400 text-sm">Aprovados</p>
+                                    <p id="approved-production"
+                                        class="text-xl sm:text-2xl lg:text-3xl font-bold text-green-400 mt-1">987</p>
+                                </div>
+                                <div
+                                    class="w-10 h-10 sm:w-12 sm:h-12 bg-green-500/20 rounded-lg flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="21.75"
+                                        height="21.75" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" class="text-green-400">
+                                        <path d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-400 text-sm">Defeituosos</p>
+                                    <p id="defective-production"
+                                        class="text-xl sm:text-2xl lg:text-3xl font-bold text-red-400 mt-1">263</p>
+                                </div>
+                                <div
+                                    class="w-10 h-10 sm:w-12 sm:h-12 bg-red-500/20 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 sm:w-6 sm:h-6 text-red-400" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z">
+                                        </path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-400 text-sm">Taxa de Defeito</p>
+                                    <p id="defect-rate"
+                                        class="text-xl sm:text-2xl lg:text-3xl font-bold mt-1 stat-value yellow">21.0%
+                                    </p>
+                                </div>
+                                <div
+                                    class="w-10 h-10 sm:w-12 sm:h-12 bg-yellow-500/20 rounded-lg flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="text-yellow-400">
+                                        <line x1="12" y1="8" x2="12" y2="14" />
+                                        <circle cx="12" cy="18" r="0.5" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Live Video Section -->
+                    <div class="mb-6 lg:mb-8">
+                        <h3 class="mb-4 text-center lg:text-left text-gray-100 text-lg sm:text-xl">Monitoramento em
+                            Tempo Real</h3>
+                        <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6">
+                            <div
+                                class="aspect-video bg-slate-900 rounded-lg flex items-center justify-center relative overflow-hidden border border-slate-600">
+                                <!-- Live video placeholder -->
+                                <div class="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-900"></div>
+                                <div class="relative z-10 text-center p-4">
+                                    <svg class="mx-auto mb-3 text-gray-500 w-12 h-12 sm:w-16 sm:h-16" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z">
+                                        </path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                    <p class="text-gray-300 mb-3 text-sm sm:text-base">Linha de Produção Principal -
+                                        Setor A</p>
+                                    <div class="flex items-center justify-center space-x-2">
+                                        <div class="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full animate-pulse">
+                                        </div>
+                                        <span class="text-green-400 text-sm sm:text-base">OPERACIONAL</span>
+                                    </div>
+                                </div>
+                                <!-- Video controls -->
+                                <div
+                                    class="absolute bottom-2 sm:bottom-4 left-2 sm:left-4 right-2 sm:right-4 bg-black/70 backdrop-blur-sm rounded-lg p-2 sm:p-3 flex items-center justify-between">
+                                    <button class="p-1 sm:p-2 hover:bg-white/20 rounded transition-colors">
+                                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293H15M9 10v4a2 2 0 002 2h2a2 2 0 002-2v-4m-6 0V6a2 2 0 012-2h2a2 2 0 012 2v4">
+                                            </path>
+                                        </svg>
+                                    </button>
+                                    <div class="flex-1 mx-2 sm:mx-4">
+                                        <div class="h-1 bg-white/30 rounded-full">
+                                            <div class="h-full w-0 bg-green-500 rounded-full"></div>
+                                        </div>
+                                    </div>
+                                    <span class="text-xs sm:text-sm">LIVE</span>
+                                </div>
+                            </div>
+
+                            <!-- Video Stats -->
+                            <div class="mt-4 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                                <div class="bg-slate-700 border border-slate-600 p-3 rounded-lg text-center">
+                                    <div class="text-sm sm:text-lg font-medium text-green-400">ONLINE</div>
+                                    <div class="text-xs sm:text-sm text-gray-400">Status</div>
+                                </div>
+                                <div class="bg-slate-700 border border-slate-600 p-3 rounded-lg text-center">
+                                    <div class="text-sm sm:text-lg font-medium text-blue-400">4K</div>
+                                    <div class="text-xs sm:text-sm text-gray-400">Resolução</div>
+                                </div>
+                                <div class="bg-slate-700 border border-slate-600 p-3 rounded-lg text-center">
+                                    <div class="text-sm sm:text-lg font-medium text-orange-400">60 FPS</div>
+                                    <div class="text-xs sm:text-sm text-gray-400">Taxa</div>
+                                </div>
+                                <div class="bg-slate-700 border border-slate-600 p-3 rounded-lg text-center">
+                                    <div class="text-sm sm:text-lg font-medium text-purple-400">Linha A1</div>
+                                    <div class="text-xs sm:text-sm text-gray-400">Localização</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <button id="action-alerts"
+                            class="w-full bg-red-600 hover:bg-red-700 border border-red-500 px-4 py-4 sm:py-3 rounded-lg flex items-center justify-center space-x-2 transition-colors text-sm sm:text-base">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z">
+                                </path>
+                            </svg>
+                            <span>Sistema de Alertas</span>
+                        </button>
+
+                        <button id="action-reports"
+                            class="w-full bg-blue-600 hover:bg-blue-700 border border-blue-500 px-4 py-4 sm:py-3 rounded-lg flex items-center justify-center space-x-2 transition-colors text-sm sm:text-base">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                                </path>
+                            </svg>
+                            <span>Relatórios de Produção</span>
+                        </button>
+
+                        <!-- Para Supervisores e Gestores - Painel Supervisor -->
+                        <button id="action-supervisor"
+                            class="w-full bg-green-600 hover:bg-green-700 border border-green-500 px-4 py-4 sm:py-3 rounded-lg flex items-center justify-center space-x-2 transition-colors text-sm sm:text-base hidden">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+                                </path>
+                            </svg>
+                            <span>Painel Supervisor</span>
+                        </button>
+
+                        <!-- Para Gestores - Área Administrativa, Para outros - Configurações -->
+                        <button id="action-manager"
+                            class="w-full bg-purple-600 hover:bg-purple-700 border border-purple-500 px-4 py-4 sm:py-3 rounded-lg flex items-center justify-center space-x-2 transition-colors text-sm sm:text-base hidden">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.031 9-11.622 0-1.042-.133-2.052-.382-3.016z">
+                                </path>
+                            </svg>
+                            <span>Área Administrativa</span>
+                        </button>
+
+                        <!-- Configurações - Sempre disponível -->
+                        <button id="action-config"
+                            class="w-full bg-slate-600 hover:bg-slate-700 border border-slate-500 px-4 py-4 sm:py-3 rounded-lg flex items-center justify-center space-x-2 transition-colors text-sm sm:text-base">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
+                                </path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            <span>Configurações</span>
+                        </button>
+                    </div>
+
+                    <!-- Profile Section - Para supervisores e gestores -->
+                    <div id="profile-section" class="mt-8 hidden">
+                        <div
+                            class="profile-card bg-gradient-to-r from-green-900/20 to-green-800/20 border border-green-600/30 rounded-lg p-6">
+                            <div class="flex items-center space-x-3 mb-4">
+                                <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+                                    </path>
+                                </svg>
+                                <h3 id="profile-title" class="text-lg font-medium text-green-100">Acesso de Supervisor
+                                </h3>
+                            </div>
+                            <p id="profile-description" class="mb-4 text-sm sm:text-base text-green-200">
+                                Como supervisor, você tem acesso ao painel de supervisão para monitoramento detalhado da
+                                produção e gestão de equipes.
+                            </p>
+
+                            <!-- Informações específicas do perfil -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <h5 class="font-medium mb-2 text-green-300">Funcionalidades Disponíveis</h5>
+                                    <ul id="profile-features" class="space-y-1 text-green-200">
+                                        <li>• Monitoramento em tempo real</li>
+                                        <li>• Análise de produtividade</li>
+                                        <li>• Relatórios detalhados</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h5 class="font-medium mb-2 text-green-300">Responsabilidades</h5>
+                                    <p id="profile-responsibilities" class="text-green-200">
+                                        Supervisão operacional, monitoramento de qualidade e coordenação de equipes.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alerts Screen -->
+        <div id="alerts-screen" class="screen">
+            <div class="min-h-screen bg-slate-950 text-gray-100">
+                <!-- Navigation -->
+                <nav class="border-b border-slate-700 sticky top-0 z-40 nav-bar-index background-gray">
+                    <div class="px-4 sm:px-6 py-3 flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <button class="btn-back p-2 rounded bg-slate-700 arrow-class transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                                </svg>
+                            </button>
+                            <span class="text-base sm:text-lg lg:text-xl font-medium text-gray-100">VisionQ - Sistema de
+                                Alertas</span>
+                        </div>
+                        <button
+                            class="btn-back hidden sm:flex px-4 py-2 bg-slate-600 hover:bg-slate-700 rounded transition-colors items-center space-x-2 text-sm">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                            </svg>
+                            <span>Voltar</span>
+                        </button>
+                    </div>
+                </nav>
+
+                <!-- Critical Section Stop Alert -->
+                <div id="critical-alert" class="bg-red-900 border-b border-red-800 p-4 sm:p-6">
+                    <div class="max-w-6xl mx-auto">
+                        <div
+                            class="flex flex-col lg:flex-row items-start lg:items-center justify-between space-y-4 lg:space-y-0">
+                            <div class="flex items-start sm:items-center space-x-3">
+                                <svg class="w-6 h-6 text-red-400 animate-pulse flex-shrink-0 mt-1 sm:mt-0" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 9l6 6m0-6l-6 6"></path>
+                                </svg>
+                                <div>
+                                    <h4 class="text-red-100 font-medium text-sm sm:text-base">PARADA AUTOMÁTICA ACIONADA
+                                    </h4>
+                                    <p class="text-red-300 text-xs sm:text-sm mt-1">Setor de Soldagem: Taxa de defeito
+                                        >75% - Operações suspensas</p>
+                                </div>
+                            </div>
+                            <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 w-full lg:w-auto">
+                                <button id="call-supervisor-btn"
+                                    class="bg-orange-600 hover:bg-orange-700 px-4 py-2 rounded text-sm font-medium transition-colors flex items-center justify-center space-x-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
+                                        </path>
+                                    </svg>
+                                    <span>Chamar Supervisor</span>
+                                </button>
+                                <button id="restart-production-btn"
+                                    class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded text-sm font-medium transition-colors">
+                                    Reiniciar Produção
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Supervisor Call Modal -->
+                <div id="supervisor-modal" class="modal">
+                    <div class="modal-backdrop"></div>
+                    <div class="modal-content bg-slate-800 border-slate-700 text-gray-100 max-w-md mx-4 sm:mx-auto">
+                        <div class="modal-header">
+                            <h3 class="text-orange-400 text-lg font-medium">Contatar Supervisor</h3>
+                            <button id="close-supervisor-modal"
+                                class="p-2 rounded hover:bg-slate-700 transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="modal-body space-y-4">
+                            <p class="text-sm sm:text-base">Deseja contatar o supervisor responsável pelo Setor de
+                                Soldagem?</p>
+                            <div class="bg-slate-700 p-4 rounded-lg">
+                                <h4 class="font-medium mb-2 text-sm sm:text-base">Supervisor Responsável</h4>
+                                <p class="text-gray-300 text-sm sm:text-base">Carlos Silva</p>
+                                <p class="text-gray-400 text-xs sm:text-sm">Telefone: (11) 9999-8888</p>
+                                <p class="text-gray-400 text-xs sm:text-sm">Email: carlos.silva@visionq.com</p>
+                            </div>
+                            <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+                                <button id="confirm-supervisor-call"
+                                    class="flex-1 bg-orange-600 hover:bg-orange-700 px-4 py-2 rounded font-medium transition-colors text-sm">
+                                    Confirmar Chamada
+                                </button>
+                                <button id="cancel-supervisor-call"
+                                    class="flex-1 bg-slate-600 hover:bg-slate-700 border border-slate-500 px-4 py-2 rounded font-medium transition-colors text-sm">
+                                    Cancelar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <div class="container mx-auto mt-4 sm:mt-6 px-4 sm:px-6 max-w-7xl">
+                    <h2 class="mb-6 text-center lg:text-left text-xl sm:text-2xl">Análise de Incidentes e Alertas</h2>
+
+                    <!-- Video Section with Incident Recording -->
+                    <div class="mb-6 sm:mb-8">
+                        <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6">
+                            <!-- Alert Info Header -->
+                            <div class="mb-4 p-4 sm:p-5 bg-red-900/20 border border-red-600/30 rounded-lg">
+                                <div
+                                    class="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-3 lg:space-y-0">
+                                    <div class="flex items-center space-x-2 mb-2 lg:mb-0">
+                                        <svg class="w-5 h-5 text-red-400 flex-shrink-0" fill="none"
+                                            stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z">
+                                            </path>
+                                        </svg>
+                                        <span class="text-red-400 font-medium text-sm sm:text-base">ÚLTIMO INCIDENTE
+                                            DETECTADO</span>
+                                    </div>
+                                    <button id="report-supervisor-btn"
+                                        class="bg-orange-600 hover:bg-orange-700 px-4 py-2 rounded text-sm font-medium transition-colors flex items-center justify-center space-x-2 w-full sm:w-auto">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 12l2 2 4-4m6-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        <span>Reportar ao Supervisor</span>
+                                    </button>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm mt-4">
+                                    <div class="flex items-center space-x-2">
+                                        <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none"
+                                            stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        <span>11/08/2025 às 14:32</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none"
+                                            stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                                            </path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        </svg>
+                                        <span>Setor de Soldagem</span>
+                                    </div>
+                                    <div class="sm:col-span-2 lg:col-span-1">
+                                        <span class="text-yellow-400">ID: #0001</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Video Player -->
+                            <div
+                                class="aspect-video bg-slate-900 rounded-lg flex items-center justify-center relative overflow-hidden border border-slate-600">
+                                <div class="absolute inset-0 bg-gradient-to-br from-red-900/20 to-slate-900"></div>
+                                <div class="relative z-10 text-center p-4">
+                                    <div
+                                        class="w-16 h-16 sm:w-20 sm:h-20 bg-red-600/20 rounded-full flex items-center justify-center mb-4 mx-auto border-2 border-red-500">
+                                        <svg class="w-8 h-8 sm:w-10 sm:h-10 text-red-400" fill="none"
+                                            stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                    <p class="text-gray-300 mb-2 text-sm sm:text-base">Gravação do Incidente</p>
+                                    <p class="text-red-400 text-xs sm:text-sm">Equipamento sem capacete de proteção</p>
+                                </div>
+
+                                <!-- Video controls -->
+                                <div
+                                    class="absolute bottom-2 sm:bottom-4 left-2 sm:left-4 right-2 sm:right-4 bg-black/70 backdrop-blur-sm rounded-lg p-2 sm:p-3 flex items-center justify-between">
+                                    <div class="flex items-center space-x-2">
+                                        <button class="p-1 sm:p-2 hover:bg-white/20 rounded transition-colors">
+                                            <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293H15M9 10v4a2 2 0 002 2h2a2 2 0 002-2v-4m-6 0V6a2 2 0 012-2h2a2 2 0 012 2v4">
+                                                </path>
+                                            </svg>
+                                        </button>
+                                        <button class="p-1 sm:p-2 hover:bg-white/20 rounded transition-colors">
+                                            <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div class="flex-1 mx-2 sm:mx-4">
+                                        <div class="h-1 bg-white/30 rounded-full">
+                                            <div class="h-full w-1/3 bg-red-500 rounded-full"></div>
+                                        </div>
+                                    </div>
+                                    <span class="text-xs sm:text-sm">00:32 / 01:25</span>
+                                </div>
+                            </div>
+
+                            <!-- Video Info -->
+                            <div class="mt-4 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                                <div class="bg-slate-700 border border-slate-600 p-3 rounded-lg text-center">
+                                    <div class="text-sm sm:text-lg font-medium text-red-400">GRAVADO</div>
+                                    <div class="text-xs sm:text-sm text-gray-400">Status</div>
+                                </div>
+                                <div class="bg-slate-700 border border-slate-600 p-3 rounded-lg text-center">
+                                    <div class="text-sm sm:text-lg font-medium text-blue-400">1080p</div>
+                                    <div class="text-xs sm:text-sm text-gray-400">Qualidade</div>
+                                </div>
+                                <div class="bg-slate-700 border border-slate-600 p-3 rounded-lg text-center">
+                                    <div class="text-sm sm:text-lg font-medium text-yellow-400">1:25</div>
+                                    <div class="text-xs sm:text-sm text-gray-400">Duração</div>
+                                </div>
+                                <div class="bg-slate-700 border border-slate-600 p-3 rounded-lg text-center">
+                                    <div class="text-sm sm:text-lg font-medium text-purple-400">Câm. 01</div>
+                                    <div class="text-xs sm:text-sm text-gray-400">Fonte</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts Section -->
+                    <div class="mb-6 sm:mb-8">
+                        <h3 class="mb-6 text-center lg:text-left text-lg sm:text-xl">Análise Estatística dos Alertas
+                        </h3>
+                        <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-6">
+                            <!-- Gráfico de Alertas por Local -->
+                            <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6">
+                                <h4 class="mb-4 text-base sm:text-lg">Alertas por Setor</h4>
+                                <div class="h-64 sm:h-80">
+                                    <canvas id="alertsByLocationChart"></canvas>
+                                </div>
+                            </div>
+
+                            <!-- Gráfico de Pizza - Prioridades -->
+                            <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6">
+                                <h4 class="mb-4 text-base sm:text-lg">Alertas por Prioridade</h4>
+                                <div class="h-64 sm:h-80">
+                                    <canvas id="alertsByPriorityChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Gráfico de Linha - Alertas por Horário -->
+                        <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6">
+                            <h4 class="mb-4 text-base sm:text-lg">Distribuição Temporal de Alertas</h4>
+                            <div class="h-64 sm:h-80">
+                                <canvas id="alertsByTimeChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Incident Description -->
+                    <div class="mb-6 sm:mb-8">
+                        <h3 class="mb-4 text-center lg:text-left text-lg sm:text-xl">Análise Detalhada do Último
+                            Incidente</h3>
+                        <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6">
+                            <div class="space-y-4 sm:space-y-6">
+                                <div>
+                                    <h4 class="text-base sm:text-lg font-medium text-yellow-400 mb-2">Descrição do
+                                        Incidente</h4>
+                                    <p class="text-gray-300 leading-relaxed text-sm sm:text-base">
+                                        Sistema de visão computacional detectou funcionário operando sem equipamento de
+                                        proteção individual obrigatório no Setor de Soldagem.
+                                        A análise foi realizada em tempo real através de algoritmos de detecção de
+                                        objetos especializados em EPIs.
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <h4 class="text-base sm:text-lg font-medium text-red-400 mb-2">Riscos e Impactos
+                                    </h4>
+                                    <ul class="text-gray-300 space-y-1 list-disc list-inside text-sm sm:text-base">
+                                        <li>Violação de normas regulamentadoras de segurança</li>
+                                        <li>Risco de acidentes de trabalho graves</li>
+                                        <li>Possível responsabilização legal da empresa</li>
+                                        <li>Impacto na produtividade e qualidade</li>
+                                    </ul>
+                                </div>
+
+                                <div>
+                                    <h4 class="text-base sm:text-lg font-medium text-green-400 mb-2">Ações Executadas
+                                    </h4>
+                                    <ul class="text-gray-300 space-y-1 list-disc list-inside text-sm sm:text-base">
+                                        <li>✅ Registro automático do incidente</li>
+                                        <li>✅ Captura de vídeo para análise</li>
+                                        <li>✅ Notificação imediata enviada</li>
+                                        <li>⏳ Aguardando ação do supervisor responsável</li>
+                                        <li>⏳ Análise de padrões para prevenção</li>
+                                    </ul>
+                                </div>
+
+                                <div class="bg-slate-700 border border-slate-600 p-4 sm:p-5 rounded-lg">
+                                    <h4 class="text-base sm:text-lg font-medium text-blue-400 mb-3">Dados Técnicos</h4>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                                        <div>
+                                            <span class="text-gray-400">Algoritmo:</span>
+                                            <span class="text-white ml-2">YOLOv8 + EPI Detection</span>
+                                        </div>
+                                        <div>
+                                            <span class="text-gray-400">Confiança:</span>
+                                            <span class="text-white ml-2">96.8%</span>
+                                        </div>
+                                        <div>
+                                            <span class="text-gray-400">Tempo Resposta:</span>
+                                            <span class="text-white ml-2">0.12 segundos</span>
+                                        </div>
+                                        <div>
+                                            <span class="text-gray-400">Coordenadas:</span>
+                                            <span class="text-white ml-2">X: 342, Y: 189</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Table Section -->
+                    <div class="mb-6 sm:mb-8">
+                        <h3 class="mb-4 text-center lg:text-left text-lg sm:text-xl">Histórico Completo de Alertas</h3>
+                        <div class="overflow-x-auto -mx-4 sm:mx-0">
+                            <div class="inline-block min-w-full px-4 sm:px-0">
+                                <table class="w-full border-collapse border border-slate-600">
+                                    <thead>
+                                        <tr class="bg-slate-800 border-b border-slate-600">
+                                            <th
+                                                class="border border-slate-600 text-gray-100 p-2 sm:p-3 text-xs sm:text-sm text-left">
+                                                #</th>
+                                            <th
+                                                class="border border-slate-600 text-gray-100 p-2 sm:p-3 text-xs sm:text-sm text-left">
+                                                Data</th>
+                                            <th
+                                                class="border border-slate-600 text-gray-100 p-2 sm:p-3 text-xs sm:text-sm text-left">
+                                                Horário</th>
+                                            <th
+                                                class="border border-slate-600 text-gray-100 p-2 sm:p-3 text-xs sm:text-sm text-left">
+                                                Local</th>
+                                            <th
+                                                class="border border-slate-600 text-gray-100 p-2 sm:p-3 text-xs sm:text-sm text-left min-w-[200px]">
+                                                Descrição</th>
+                                            <th
+                                                class="border border-slate-600 text-gray-100 p-2 sm:p-3 text-xs sm:text-sm text-left">
+                                                Prioridade</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="alerts-table-body">
+                                        <!-- Table content will be populated by JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reports Screen -->
+        <div id="reports-screen" class="screen">
+            <div class="min-h-screen bg-slate-950 text-gray-100">
+                <!-- Navigation -->
+                <nav class="bg-slate-800 border-b border-slate-700 sticky top-0 z-40">
+                    <div class="px-4 sm:px-6 py-3 flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <button class="btn-back p-2 rounded bg-slate-700 arrow-class transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                                </svg>
+                            </button>
+                            <span class="text-base sm:text-lg lg:text-xl font-medium text-gray-100">VisionQ - Relatórios
+                                de Produção</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button id="export-pdf-btn"
+                                class="hidden sm:flex px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded transition-colors items-center space-x-2 text-sm">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                                    </path>
+                                </svg>
+                                <span>Exportar</span>
+                            </button>
+                            <button
+                                class="btn-back hidden md:flex px-4 py-2 bg-slate-600 hover:bg-slate-700 rounded transition-colors items-center space-x-2 text-sm">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                                </svg>
+                                <span>Voltar</span>
+                            </button>
+                        </div>
+                    </div>
+                </nav>
+
+                <div class="container mx-auto mt-4 sm:mt-6 px-4 sm:px-6 max-w-7xl">
+                    <!-- Summary Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+                        <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-400 text-sm">Produção Mensal</p>
+                                    <p class="text-xl sm:text-2xl font-bold text-gray-100 mt-1">34,200</p>
+                                    <div class="flex items-center space-x-1 mt-2">
+                                        <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                                        </svg>
+                                        <span class="text-green-400 text-xs sm:text-sm">+5.2%</span>
+                                    </div>
+                                </div>
+                                <div
+                                    class="w-10 h-10 sm:w-12 sm:h-12 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 sm:w-6 sm:h-6 text-blue-400" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                        </path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-400 text-sm">Taxa de Aprovação</p>
+                                    <p class="text-xl sm:text-2xl font-bold text-green-400 mt-1">85.1%</p>
+                                    <div class="flex items-center space-x-1 mt-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="lucide lucide-circle-check-big w-5 h-5 sm:w-6 sm:h-6 text-green-400"
+                                            aria-hidden="true">
+                                            <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                                            <path d="m9 11 3 3L22 4"></path>
+                                        </svg>
+                                        <span class="text-green-400 text-xs sm:text-sm">+2.1%</span>
+                                    </div>
+                                </div>
+                                <div
+                                    class="w-10 h-10 sm:w-12 sm:h-12 bg-green-500/20 rounded-lg flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="lucide lucide-circle-check-big w-5 h-5 sm:w-6 sm:h-6 text-green-400"
+                                        aria-hidden="true">
+                                        <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                                        <path d="m9 11 3 3L22 4"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-400 text-sm">Taxa de Defeito</p>
+                                    <p class="text-xl sm:text-2xl font-bold text-red-400 mt-1">14.9%</p>
+                                    <div class="flex items-center space-x-1 mt-2">
+                                        <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path>
+                                        </svg>
+                                        <span class="text-green-400 text-xs sm:text-sm">-1.2%</span>
+                                    </div>
+                                </div>
+                                <div
+                                    class="w-10 h-10 sm:w-12 sm:h-12 bg-red-500/20 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 sm:w-6 sm:h-6 text-red-400" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z">
+                                        </path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-400 text-sm">Eficiência Geral</p>
+                                    <p class="text-xl sm:text-2xl font-bold text-yellow-400 mt-1">78.5%</p>
+                                    <div class="flex items-center space-x-1 mt-2">
+                                        <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                                        </svg>
+                                        <span class="text-green-400 text-xs sm:text-sm">+3.4%</span>
+                                    </div>
+                                </div>
+                                <div
+                                    class="w-10 h-10 sm:w-12 sm:h-12 bg-yellow-500/20 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 sm:w-6 sm:h-6 text-yellow-400" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Weekly Report -->
+                    <div class="mb-6 sm:mb-8">
+                        <h3 class="mb-4 sm:mb-6 text-center lg:text-left text-lg sm:text-xl">Relatório Semanal</h3>
+                        <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6">
+                            <div class="mb-4 flex flex-col lg:flex-row lg:items-center lg:justify-between">
+                                <h4 class="mb-2 lg:mb-0 text-base sm:text-lg">Produção dos Últimos 7 Dias</h4>
+                                <div class="text-sm text-gray-400">Semana de 05/08 a 11/08/2025</div>
+                            </div>
+                            <div class="h-64 sm:h-80">
+                                <canvas id="weeklyProductionChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Monthly Report -->
+                    <div class="mb-6 sm:mb-8">
+                        <h3 class="mb-4 sm:mb-6 text-center lg:text-left text-lg sm:text-xl">Relatório Mensal</h3>
+                        <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                            <!-- Production Chart -->
+                            <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6">
+                                <h4 class="mb-4 text-base sm:text-lg">Evolução da Produção por Mês</h4>
+                                <div class="h-64 sm:h-80">
+                                    <canvas id="monthlyProductionChart"></canvas>
+                                </div>
+                            </div>
+
+                            <!-- Defect Rate Trend -->
+                            <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6">
+                                <h4 class="mb-4 text-base sm:text-lg">Taxa de Defeito ao Longo do Tempo</h4>
+                                <div class="h-64 sm:h-80">
+                                    <canvas id="defectRateChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sector Analysis -->
+                    <div class="mb-6 sm:mb-8">
+                        <h3 class="mb-4 sm:mb-6 text-center lg:text-left text-lg sm:text-xl">Análise por Setor</h3>
+                        <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                            <!-- Pie Chart -->
+                            <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6">
+                                <h4 class="mb-4 text-base sm:text-lg">Distribuição de Defeitos por Setor</h4>
+                                <div class="h-64 sm:h-80">
+                                    <canvas id="sectorDefectsChart"></canvas>
+                                </div>
+                            </div>
+
+                            <!-- Sector Table -->
+                            <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6">
+                                <h4 class="mb-4 text-base sm:text-lg">Desempenho Detalhado por Setor</h4>
+                                <div class="overflow-x-auto -mx-4 sm:mx-0">
+                                    <div class="inline-block min-w-full px-4 sm:px-0">
+                                        <table class="w-full text-sm">
+                                            <thead>
+                                                <tr class="border-b border-slate-600">
+                                                    <th class="text-left py-2 sm:py-3 text-gray-400 text-xs sm:text-sm">
+                                                        Setor</th>
+                                                    <th
+                                                        class="text-right py-2 sm:py-3 text-gray-400 text-xs sm:text-sm">
+                                                        Aprovados</th>
+                                                    <th
+                                                        class="text-right py-2 sm:py-3 text-gray-400 text-xs sm:text-sm">
+                                                        Defeitos</th>
+                                                    <th
+                                                        class="text-right py-2 sm:py-3 text-gray-400 text-xs sm:text-sm">
+                                                        Taxa</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="sector-performance-table">
+                                                <!-- Table content will be populated by JavaScript -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Export Options -->
+                    <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6 mb-6">
+                        <h4 class="mb-4 sm:mb-6 text-base sm:text-lg">Opções de Exportação</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <button id="export-pdf"
+                                class="w-full bg-blue-600 hover:bg-blue-700 border border-blue-500 px-4 py-3 sm:py-4 rounded-lg flex items-center justify-center space-x-2 transition-colors text-sm sm:text-base">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                                    </path>
+                                </svg>
+                                <span>Relatório PDF</span>
+                            </button>
+                            <button id="export-excel"
+                                class="w-full bg-green-600 hover:bg-green-700 border border-green-500 px-4 py-3 sm:py-4 rounded-lg flex items-center justify-center space-x-2 transition-colors text-sm sm:text-base">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                                    </path>
+                                </svg>
+                                <span>Exportar Excel</span>
+                            </button>
+                            <button id="export-csv"
+                                class="w-full bg-purple-600 hover:bg-purple-700 border border-purple-500 px-4 py-3 sm:py-4 rounded-lg flex items-center justify-center space-x-2 transition-colors text-sm sm:text-base">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                                    </path>
+                                </svg>
+                                <span>Dados CSV</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Supervisor Screen -->
+        <div id="supervisor-screen" class="screen">
+            <div class="min-h-screen bg-slate-950 text-gray-100">
+                <!-- Navigation -->
+                <nav class="bg-slate-800 border-b border-slate-700 sticky top-0 z-40">
+                    <div class="px-4 sm:px-6 py-3 flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <button class="btn-back p-2 rounded bg-slate-700 arrow-class transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                                </svg>
+                            </button>
+                            <div class="flex items-center space-x-2">
+                                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-green-500" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+                                    </path>
+                                </svg>
+                                <span class="text-base sm:text-lg lg:text-xl font-medium text-gray-100">Painel
+                                    Supervisor</span>
+                                <span id="supervisor-badge"
+                                    class="px-2 py-1 text-xs bg-green-500/20 text-green-400 rounded-full">
+                                    Supervisor
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-2">
+                            <button
+                                class="px-3 py-1 sm:px-4 sm:py-2 bg-slate-600 hover:bg-slate-700 rounded transition-colors text-xs sm:text-sm flex items-center space-x-1 sm:space-x-2">
+                                <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+                                    </path>
+                                </svg>
+                                <span class="hidden sm:inline">Atualizar</span>
+                            </button>
+                            <button
+                                class="px-3 py-1 sm:px-4 sm:py-2 bg-slate-600 hover:bg-slate-700 rounded transition-colors text-xs sm:text-sm flex items-center space-x-1 sm:space-x-2">
+                                <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                                    </path>
+                                </svg>
+                                <span class="hidden sm:inline">Exportar</span>
+                            </button>
+                            <button
+                                class="btn-back hidden md:flex px-4 py-2 bg-slate-600 hover:bg-slate-700 rounded transition-colors items-center space-x-2 text-sm">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                                </svg>
+                                <span>Dashboard</span>
+                            </button>
+                        </div>
+                    </div>
+                </nav>
+
+                <div class="container mx-auto mt-4 sm:mt-6 px-4 sm:px-6 max-w-7xl">
+                    <!-- Filtros -->
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
+                        <div>
+                            <h2 class="text-xl sm:text-2xl text-gray-100 mb-1">Dashboard de Supervisão</h2>
+                            <p class="text-gray-400 text-sm sm:text-base">Monitoramento em tempo real da produção e
+                                qualidade</p>
+                        </div>
+
+                        <div class="flex items-center space-x-3">
+                            <select id="supervisor-period-filter"
+                                class="bg-slate-700 border border-slate-600 text-gray-100 px-3 py-2 rounded text-sm">
+                                <option value="hoje">Hoje</option>
+                                <option value="semana">Esta Semana</option>
+                                <option value="mes">Este Mês</option>
+                            </select>
+
+                            <select id="supervisor-sector-filter"
+                                class="bg-slate-700 border border-slate-600 text-gray-100 px-3 py-2 rounded text-sm">
+                                <option value="todos">Todos Setores</option>
+                                <option value="soldagem">Soldagem</option>
+                                <option value="montagem">Montagem</option>
+                                <option value="acabamento">Acabamento</option>
+                                <option value="embalagem">Embalagem</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- KPIs Principais -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+                        <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-400 text-sm">Produção Total</p>
+                                    <p class="text-xl sm:text-2xl font-bold text-blue-400 mt-1">1,031</p>
+                                    <div class="flex items-center mt-2">
+                                        <svg class="w-3 h-3 text-green-400 mr-1" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                                        </svg>
+                                        <span class="text-green-400 text-xs">+12% vs ontem</span>
+                                    </div>
+                                </div>
+                                <div
+                                    class="w-10 h-10 sm:w-12 sm:h-12 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 sm:w-6 sm:h-6 text-blue-400" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z">
+                                        </path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-400 text-sm">Eficiência Geral</p>
+                                    <p class="text-xl sm:text-2xl font-bold text-green-400 mt-1">95.8%</p>
+                                    <div class="flex items-center mt-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="lucide lucide-circle-check-big w-5 h-5 sm:w-6 sm:h-6 text-green-400"
+                                            aria-hidden="true">
+                                            <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                                            <path d="m9 11 3 3L22 4"></path>
+
+                                        </svg>
+                                        <span class="text-green-400 text-xs">+2.3% vs ontem</span>
+                                    </div>
+                                </div>
+                                <div
+                                    class="w-10 h-10 sm:w-12 sm:h-12 bg-green-500/20 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 sm:w-6 sm:h-6 text-green-400" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 12l2 2 4-4m6-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-400 text-sm">Taxa de Defeitos</p>
+                                    <p class="text-xl sm:text-2xl font-bold text-red-400 mt-1">4.1%</p>
+                                    <div class="flex items-center mt-2">
+                                        <svg class="w-3 h-3 text-red-400 mr-1" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path>
+                                        </svg>
+                                        <span class="text-red-400 text-xs">+0.8% vs ontem</span>
+                                    </div>
+                                </div>
+                                <div
+                                    class="w-10 h-10 sm:w-12 sm:h-12 bg-red-500/20 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 sm:w-6 sm:h-6 text-red-400" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z">
+                                        </path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-400 text-sm">Tempo Médio/Peça</p>
+                                    <p class="text-xl sm:text-2xl font-bold text-orange-400 mt-1">2.4min</p>
+                                    <div class="flex items-center mt-2">
+                                        <svg class="w-3 h-3 text-green-400 mr-1" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path>
+                                        </svg>
+                                        <span class="text-green-400 text-xs">-0.2min vs ontem</span>
+                                    </div>
+                                </div>
+                                <div
+                                    class="w-10 h-10 sm:w-12 sm:h-12 bg-orange-500/20 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 sm:w-6 sm:h-6 text-orange-400" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-8">
+                        <!-- Gráfico de Produção por Hora -->
+                        <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6">
+                            <h3 class="text-lg font-medium text-gray-100 mb-4">Produção por Hora</h3>
+                            <div class="h-80">
+                                <canvas id="supervisorProductionChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Performance por Setor -->
+                        <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6">
+                            <h3 class="text-lg font-medium text-gray-100 mb-4">Performance por Setor</h3>
+                            <div class="h-80">
+                                <canvas id="supervisorSectorChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                        <!-- Tipos de Defeitos -->
+                        <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6">
+                            <h3 class="text-lg font-medium text-gray-100 mb-4">Tipos de Defeitos</h3>
+                            <div class="h-64">
+                                <canvas id="supervisorDefectsChart"></canvas>
+                            </div>
+                            <div class="space-y-2 mt-4" id="defects-legend">
+                                <!-- Legend will be populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <!-- Alertas Ativos -->
+                        <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-medium text-gray-100">Alertas Ativos</h3>
+                                <span
+                                    class="px-2 py-1 text-xs font-medium bg-red-500/20 text-red-400 rounded-full">3</span>
+                            </div>
+                            <div class="space-y-3" id="active-alerts">
+                                <!-- Alerts will be populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <!-- Status dos Setores -->
+                        <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6">
+                            <h3 class="text-lg font-medium text-gray-100 mb-4">Status dos Setores</h3>
+                            <div class="space-y-4" id="sector-status">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Informações do Perfil para Gestor -->
+                    <div id="supervisor-gestor-info" class="mt-8 hidden">
+                        <div class="bg-purple-900/20 border border-purple-600/30 rounded-lg p-4 sm:p-6">
+                            <div class="flex items-center space-x-3 mb-4">
+                                <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+                                    </path>
+                                </svg>
+                                <h4 class="text-lg font-medium text-purple-100">Acesso de Gestor</h4>
+                            </div>
+                            <p class="text-purple-200 text-sm">
+                                Como gestor, você tem acesso a todas as funcionalidades de supervisão,
+                                incluindo dados detalhados de todos os setores e capacidade de tomar decisões
+                                operacionais estratégicas.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Manager Screen -->
+        <div id="manager-screen" class="screen">
+            <div class="min-h-screen bg-slate-950 text-gray-100">
+                <!-- Navigation -->
+                <nav class="bg-slate-800 border-b border-slate-700 sticky top-0 z-40">
+                    <div class="px-4 sm:px-6 py-3 flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <button class="btn-back p-2 rounded bg-slate-700 arrow-class transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                                </svg>
+                            </button>
+                            <div class="flex items-center space-x-2">
+                                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-purple-500" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.031 9-11.622 0-1.042-.133-2.052-.382-3.016z">
+                                    </path>
+                                </svg>
+                                <span class="text-base sm:text-lg lg:text-xl font-medium text-gray-100">Área
+                                    Administrativa</span>
+                                <span class="px-2 py-1 text-xs bg-purple-500/20 text-purple-400 rounded-full">
+                                    GESTOR
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-2">
+                            <button
+                                class="btn-back hidden md:flex px-4 py-2 bg-slate-600 hover:bg-slate-700 rounded transition-colors items-center space-x-2 text-sm">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                                </svg>
+                                <span>Dashboard Principal</span>
+                            </button>
+                        </div>
+                    </div>
+                </nav>
+
+                <div class="container mx-auto mt-4 sm:mt-6 px-4 sm:px-6 max-w-7xl">
+                    <!-- Header -->
+                    <div class="text-center mb-6 sm:mb-8">
+                        <h2 class="text-xl sm:text-2xl text-gray-100 mb-2">Painel Administrativo do Gestor</h2>
+                        <p class="text-gray-400 text-sm sm:text-base">Gestão completa de recursos humanos e funcionários
+                        </p>
+                    </div>
+
+                    <!-- Estatísticas Gerais -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+                        <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-400 text-sm">Total de Funcionários</p>
+                                    <p class="text-xl sm:text-2xl font-bold text-blue-400 mt-1" id="total-employees">3
+                                    </p>
+                                </div>
+                                <div
+                                    class="w-10 h-10 sm:w-12 sm:h-12 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 sm:w-6 sm:h-6 text-blue-400" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z">
+                                        </path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-400 text-sm">Funcionários Ativos</p>
+                                    <p class="text-xl sm:text-2xl font-bold text-green-400 mt-1" id="active-employees">3
+                                    </p>
+                                </div>
+                                <div
+                                    class="w-10 h-10 sm:w-12 sm:h-12 bg-green-500/20 rounded-lg flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="21" height="21"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="text-green-400">
+                                        <!-- Cabeça -->
+                                        <circle cx="12" cy="7" r="4" />
+                                        <!-- Ombros / corpo -->
+                                        <path d="M5.5 21a6.5 6.5 0 0 1 13 0z" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-400 text-sm">Setores Ativos</p>
+                                    <p class="text-xl sm:text-2xl font-bold text-purple-400 mt-1" id="active-sectors">3
+                                    </p>
+                                </div>
+                                <div
+                                    class="w-10 h-10 sm:w-12 sm:h-12 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 sm:w-6 sm:h-6 text-purple-400" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+                                        </path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-400 text-sm">Cadastros Recentes</p>
+                                    <p class="text-xl sm:text-2xl font-bold text-orange-400 mt-1"
+                                        id="recent-registrations">3</p>
+                                </div>
+                                <div
+                                    class="w-10 h-10 sm:w-12 sm:h-12 bg-orange-500-20 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 sm:w-6 sm:h-6 text-orange-400" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0z">
+                                        </path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Menu Principal de Gestão -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                        <!-- Card de Cadastro -->
+                        <div
+                            class="bg-gradient-to-br from-orange-900/20 to-orange-800/20 border border-orange-600/30 rounded-lg p-6 sm:p-8">
+                            <div class="flex items-center space-x-3 mb-4">
+                                <div class="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-orange-400" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-medium text-orange-100">Cadastrar Funcionários</h3>
+                                    <p class="text-orange-200/80 text-sm">Adicionar novos colaboradores ao sistema</p>
+                                </div>
+                            </div>
+
+                            <div class="space-y-3 mb-6">
+                                <div class="flex items-center space-x-2 text-orange-300 text-sm">
+                                    <div class="w-1.5 h-1.5 bg-orange-400 rounded-full"></div>
+                                    <span>Formulário completo de cadastro</span>
+                                </div>
+                                <div class="flex items-center space-x-2 text-orange-300 text-sm">
+                                    <div class="w-1.5 h-1.5 bg-orange-400 rounded-full"></div>
+                                    <span>Geração automática de códigos</span>
+                                </div>
+                                <div class="flex items-center space-x-2 text-orange-300 text-sm">
+                                    <div class="w-1.5 h-1.5 bg-orange-400 rounded-full"></div>
+                                    <span>Tabela de funcionários em tempo real</span>
+                                </div>
+                            </div>
+
+                            <button id="navigate-to-registration"
+                                class="w-full bg-orange-600 hover:bg-orange-700 border border-orange-500 py-3 rounded-lg font-medium transition-colors flex items-center justify-center space-x-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z">
+                                    </path>
+                                </svg>
+                                <span>Acessar Cadastro</span>
+                            </button>
+                        </div>
+
+                        <!-- Card de Gerenciamento -->
+                        <div
+                            class="bg-gradient-to-br from-blue-900/20 to-blue-800/20 border border-blue-600/30 rounded-lg p-6 sm:p-8">
+                            <div class="flex items-center space-x-3 mb-4">
+                                <div class="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-medium text-blue-100">Gerenciar Funcionários</h3>
+                                    <p class="text-blue-200/80 text-sm">Visualizar e editar dados de funcionários</p>
+                                </div>
+                            </div>
+
+                            <div class="space-y-3 mb-6">
+                                <div class="flex items-center space-x-2 text-blue-300 text-sm">
+                                    <div class="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
+                                    <span>Busca e filtros avançados</span>
+                                </div>
+                                <div class="flex items-center space-x-2 text-blue-300 text-sm">
+                                    <div class="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
+                                    <span>Ativação/desativação de funcionários</span>
+                                </div>
+                                <div class="flex items-center space-x-2 text-blue-300 text-sm">
+                                    <div class="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
+                                    <span>Exportação de relatórios</span>
+                                </div>
+                            </div>
+
+                            <button id="navigate-to-management"
+                                class="w-full bg-blue-600 hover:bg-blue-700 border border-blue-500 py-3 rounded-lg font-medium transition-colors flex items-center justify-center space-x-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z">
+                                    </path>
+                                </svg>
+                                <span>Acessar Gerenciamento</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Visão Geral dos Funcionários -->
+                    <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 sm:p-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex items-center space-x-2">
+                                <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                                    </path>
+                                </svg>
+                                <h3 class="text-lg font-medium text-gray-100">Últimos Funcionários Cadastrados</h3>
+                            </div>
+                            <button id="view-all-employees"
+                                class=" text-gray-100 py-2 bg-slate-600 hover:bg-slate-700 border border-slate-500 rounded transition-colors text-sm">
+                                Ver Todos
+                            </button>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b border-slate-700 text-gray-100">
+                                        <th class="text-left p-3 text-gray-300 text-sm">Nome</th>
+                                        <th class="text-left p-3 text-gray-300 text-sm">Código</th>
+                                        <th class="text-left p-3 text-gray-300 text-sm">Setor</th>
+                                        <th class="text-left p-3 text-gray-300 text-sm">Cargo</th>
+                                        <th class="text-left p-3 text-gray-300 text-sm">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="employees-table">
+                                    <!-- Table content will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div id="no-employees" class="text-center py-12 hidden">
+                            <svg class="w-12 h-12 text-gray-500 mx-auto mb-4" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z">
+                                </path>
+                            </svg>
+                            <p class="text-gray-400 mb-4">Nenhum funcionário cadastrado ainda</p>
+                            <button id="first-employee-btn"
+                                class="bg-orange-600 hover:bg-orange-700 px-4 py-2 rounded font-medium transition-colors flex items-center space-x-2 mx-auto">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z">
+                                    </path>
+                                </svg>
+                                <span>Cadastrar Primeiro Funcionário</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Informações de Acesso -->
+                    <div class="mt-8">
+                        <div class="bg-slate-700/50 border border-slate-600 rounded-lg p-4 sm:p-6">
+                            <div class="flex items-center space-x-3 mb-4">
+                                <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.031 9-11.622 0-1.042-.133-2.052-.382-3.016z">
+                                    </path>
+                                </svg>
+                                <h4 class="text-lg font-medium text-purple-100">Informações de Segurança</h4>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <h5 class="text-gray-200 font-medium mb-2">Controle de Acesso</h5>
+                                    <p class="text-gray-400">
+                                        Esta área é restrita apenas para usuários com perfil de <strong>Gestor</strong>.
+                                        Todas as operações são registradas e monitoradas para auditoria.
+                                    </p>
+                                </div>
+                                <div>
+                                    <h5 class="text-gray-200 font-medium mb-2">Responsabilidades</h5>
+                                    <p class="text-gray-400">
+                                        Como gestor, você é responsável pela integridade dos dados dos funcionários
+                                        e deve seguir as políticas de privacidade da empresa.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script src="../js/script.js"></script>
+</body>
+
+</html>
