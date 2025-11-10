@@ -1,40 +1,45 @@
-// Server.js
+// Importações
 import express from "express";
-import { spawn } from "child_process";
-import bodyParser from "body-parser";
 import cors from "cors";
+import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 
+// Configuração inicial
+dotenv.config();
 const app = express();
 app.use(cors());
-app.use(bodyParser.json({ limit: "10mb" }));
+app.use(express.json());
 
-// Endpoint da IA
-app.post("/api/detect", (req, res) => {
-  const { image } = req.body;
-  if (!image) return res.status(400).json({ error: "Nenhuma imagem recebida" });
+// Corrige caminhos (importante pro Render)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-  const python = spawn("python", ["yolo_detect.py"]);
+// Caminho do frontend
+const FRONTEND_DIR = path.join(__dirname, "../../frontend/html");
 
-  let output = "";
-  python.stdout.on("data", data => {
-    output += data.toString();
-  });
+// Servir arquivos estáticos (HTML, CSS, JS, imagens)
+app.use(express.static(FRONTEND_DIR));
+app.use("/js", express.static(path.join(__dirname, "../../frontend/js")));
+app.use("/css", express.static(path.join(__dirname, "../../frontend/css")));
 
-  python.stderr.on("data", data => {
-    console.error("Erro Python:", data.toString());
-  });
-
-  python.on("close", () => {
-    try {
-      const detections = JSON.parse(output);
-      res.json(detections);
-    } catch (err) {
-      res.status(500).json({ error: "Erro ao processar detecção" });
-    }
-  });
-
-  python.stdin.write(image);
-  python.stdin.end();
+// Rota principal
+app.get("/", (req, res) => {
+  res.sendFile(path.join(FRONTEND_DIR, "index.html"));
 });
 
-app.listen(3000, () => console.log("Servidor Node rodando na porta 3000 🚀"));
+// Exemplo de rota de login
+app.post("/api/login", (req, res) => {
+  const { email, password } = req.body;
+
+  // Exemplo simples (depois tu pode conectar ao MongoDB)
+  if (email === "Adm@gmail.com" && password === "ADM001") {
+    return res.json({ success: true, redirect: "/index.html" });
+  } else {
+    return res.status(401).json({ success: false, message: "Credenciais inválidas" });
+  }
+});
+
+// Porta (Render usa process.env.PORT)
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`✅ Servidor rodando na porta ${PORT}`));

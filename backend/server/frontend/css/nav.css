@@ -1,0 +1,104 @@
+.buttonNav button{
+    padding: 6px 8px 6px 8px;
+    border-radius: 5px;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+}
+.buttonNav{
+    display: flex;
+    justify-content: center;
+    width: 20%;
+}
+.buttonNav button:nth-child(2){
+    background-color: black;
+    color: #ffffff;
+    margin-left: 5px;
+}
+.buttonNav button:nth-child(1):hover{
+    background-color: rgb(228, 228, 228);
+}
+#startup{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 20%;
+}
+#startup img{
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+#links{
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+}
+#links a{
+    text-decoration: none;
+    color: black;
+}
+#navbar{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    position: fixed;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+
+    height: 80px;
+    width: 100%;
+    background-color: color-mix(in oklab, #ffffff 80%, transparent 20%);
+}
+#navbar :first-child div{
+    display: flex;
+    flex-direction: row;
+    justify-content: baseline;
+    align-items: center;
+}
+a {
+    position: relative;
+    text-decoration: none;
+    color: #3498db;
+}
+
+#links a::after{
+    content: "";
+    position: absolute;
+    left: 50%; /* começa no meio */
+    bottom: 0;
+    transform: translateX(-50%) scaleX(0); /* encolhido no meio */
+    transform-origin: center; /* cresce para os dois lados */
+    width: 100%;
+    height: 2px;
+    background-color: currentColor;
+    transition: transform 0.3s ease;
+}
+
+#links a:hover::after {
+    transform: translateX(-50%) scaleX(1); /* cresce até ocupar todo o link */
+}
+@media (max-width: 900px) {
+    #startup{
+        display: none;
+    }
+}
+@media (max-width: 650px) {
+    #links a{
+        font-size: small;
+    }
+    .buttonNav{
+        width: 10%;
+    }
+}
+@media (max-width: 500px) {
+    #startup{
+        display: flex;
+        width: 50%;
+    }
+    #links{
+        display: none;
+    }
+}

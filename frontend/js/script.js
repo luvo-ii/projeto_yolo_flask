@@ -7,6 +7,38 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("formLogin");
+  if (!form) return;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault(); // impede o recarregamento da página
+
+    const email = document.getElementById("email").value;
+    const codigo = document.getElementById("codigo").value;
+
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password: codigo }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        window.location.href = result.redirect;
+      } else {
+        alert("Email ou código inválidos!");
+      }
+    } catch (err) {
+      console.error("Erro ao fazer login:", err);
+      alert("Erro ao conectar ao servidor.");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("formLogin");
 
   if (form) {
     form.addEventListener("submit", (event) => {
