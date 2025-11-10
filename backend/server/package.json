@@ -1,15 +1,14 @@
 {
-  "name": "visionq-backend",
+  "name": "projeto_yolo_flask",
   "version": "1.0.0",
-  "description": "Servidor Node.js do VisionQ",
-  "main": "Server.js",
+  "main": "backend/server/Server.js",
   "type": "module",
   "scripts": {
-    "start": "node Server.js"
+    "start": "node backend/server/Server.js"
   },
   "dependencies": {
+    "express": "^4.19.2",
     "cors": "^2.8.5",
-    "dotenv": "^17.2.3",
-    "express": "^5.1.0"
+    "dotenv": "^16.4.5"
   }
 }
