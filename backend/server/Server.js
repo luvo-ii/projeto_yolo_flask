@@ -25,7 +25,7 @@ app.use("/css", express.static(path.join(__dirname, "../../frontend/css")));
 
 // Rota principal
 app.get("/", (req, res) => {
-  res.sendFile(path.join(FRONTEND_DIR, "index.html"));
+  res.sendFile(path.join(FRONTEND_DIR, "homepage.html"));
 });
 
 // Exemplo de rota de login
